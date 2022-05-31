@@ -214,7 +214,7 @@ class tock:
                         break
 
 
-            if datetime.datetime.now() > self.prevTime + datetime.timedelta(seconds=settings["TIMER DELAY"]):   # TODO CHANGE TO MINUTES
+            if datetime.datetime.now() > self.prevTime + datetime.timedelta(minutes=settings["TIMER DELAY"]):   # TODO CHANGE TO MINUTES
                 chatConnection.sendToChat(resources.sendMessageFromText())
                 self.prevTime = datetime.datetime.now()
 
