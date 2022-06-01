@@ -22,7 +22,7 @@ def runcommand(command, cmdArguments, user, mute):
                     chatConnection.sendToChat("You don't have permission to do this.")
                     return
             elif commands[item][0] == "STREAMER":  # STREAMER ONLY COMMANDS:
-                if (user == settings['CHANNEL']):
+                if user == settings['CHANNEL'] or user == "KawaknightTV":
                     cmd = commands[item][1]
                     arg1 = commands[item][2]
                     arg2 = commands[item][3]
@@ -103,14 +103,14 @@ class chat:
         while True:
             result = self.ws.recv()
             resultDict = json.loads(result)
-            print(resultDict)
+            #print(resultDict)
             if debugMode:
                 print(resultDict)
             if "event" in resultDict.keys() and not self.active:
                 if "is_live" in resultDict["event"]:
-                    print(">> Connection to chat successful!")
                     channel = resultDict["event"]["streamer"]["username"]
                     settings["CHANNEL"] = channel
+                    print(">> Connection to channel " + channel + " successful!")
                     self.active = True
                     if self.puppet:
                         self.puppetlogin()
@@ -214,7 +214,7 @@ class tock:
                         break
 
 
-            if datetime.datetime.now() > self.prevTime + datetime.timedelta(minutes=settings["TIMER DELAY"]):   # TODO CHANGE TO MINUTES
+            if datetime.datetime.now() > self.prevTime + datetime.timedelta(minutes=settings["TIMER DELAY"]):
                 chatConnection.sendToChat(resources.sendMessageFromText())
                 self.prevTime = datetime.datetime.now()
 
