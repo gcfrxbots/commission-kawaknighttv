@@ -36,7 +36,6 @@ def runcommand(command, cmdArguments, user, mute):
             break
     if not cmd:
         return
-
     output = eval(cmd + '(%s, %s)' % (arg1, arg2))
     if not output:
         return
@@ -215,12 +214,15 @@ class tock:
 
 
             if datetime.datetime.now() > self.prevTime + datetime.timedelta(minutes=settings["TIMER DELAY"]):
-                chatConnection.sendToChat(resources.sendMessageFromText())
                 self.prevTime = datetime.datetime.now()
+
+                if customcmds.enabled:
+                    chatConnection.sendToChat(resources.sendMessageFromText())
+
 
     def dropNow(self, args, user):
         self.prevTime = datetime.datetime.now()
-        resources.sendMessageFromText()
+        chatConnection.sendToChat(resources.sendMessageFromText())
 
 
 tock = tock()
